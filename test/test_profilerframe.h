@@ -43,11 +43,11 @@ public:
 	void testFrameTime()
 	{
 		ProfilerFrame frame;
-		TS_ASSERT_LESS_THAN_EQUALS(frame.getTimeFromStart(), 0.0001);
+		TS_ASSERT_LESS_THAN_EQUALS(frame.getTimeFromStart(), 0.001);
 		TS_ASSERT_LESS_THAN_EQUALS(-0.01, frame.getTimeFromStart());
 		usleep(1000 * 1000);
 		TS_ASSERT_LESS_THAN_EQUALS(1.000, frame.getTimeFromStart());
-		TS_ASSERT_LESS_THAN_EQUALS(frame.getTimeFromStart(), 1.0001);
+		TS_ASSERT_LESS_THAN_EQUALS(frame.getTimeFromStart(), 1.001);
 	}
 };
 
