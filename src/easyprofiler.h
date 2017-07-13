@@ -35,6 +35,8 @@
 
 #include <stack>
 #include <functional>
+#include <vector>
+
 #include "profilerframe.h"
 
 class EasyProfiler
@@ -53,7 +55,7 @@ public:
 						 const char *fmt = nullptr);
 
 private:
-	std::stack<ProfilerFrame> stack_;
+	std::stack<ProfilerFrame, std::vector<ProfilerFrame>> stack_;
 	PrintHandler printHandler_;
 };
 
