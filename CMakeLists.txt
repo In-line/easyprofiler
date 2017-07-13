@@ -14,8 +14,11 @@ add_subdirectory(test)
 file(GLOB_RECURSE SOURCE_FILES ${SRC_DIR}/*.h ${SRC_DIR}/*.cpp ${AMXXSDK}/sdk/*.cpp)
 #${API_INCLUDE_PATH}/*.h ${API_INCLUDE_PATH}/*.cpp
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} )
-set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-fdata-sections -ffunction-sections -m32")
-set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-m32 -Wl,--gc-sections -static-libstdc++")
+
+set(FLAGS "-m32 -O2 -mtune=generic -fvisibility=hidden -flto -fPIC")
+set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "${FLAGS} -fdata-sections -ffunction-sections")
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "${FLAGS} -static-libgcc -static-libstdc++ -s -Wl,--version-script=${CMAKE_SOURCE_DIR}/version_script.lds -Wl,--gc-sections")
+
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX "_amxx_i386.so")
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_range_for)
@@ -29,8 +32,6 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra  -Wzero-as-null-pointer-constant -Wunknown-pragmas")
 	if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
-		set(CMAKE_CXX_FLAGS "-O2 -finline-functions")
-		set(CMAKE_SHARED_LINKER_FLAGS "-s")
 	endif()
 endif()
 
