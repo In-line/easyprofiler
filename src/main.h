@@ -52,7 +52,8 @@ AMX_NATIVE_INFO ep_exports[] = {
 	{"ep_sleep", ep_sleep},
 	{"ep_end_and_set_correction", ep_end_and_set_correction},
 	{"ep_set_correction", ep_set_correction},
-	{"ep_dummy_call", ep_dummy_call}
+	{"ep_dummy_call", ep_dummy_call},
+	{nullptr, nullptr}
 };
 
 #endif // MAIN_H
