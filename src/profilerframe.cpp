@@ -43,3 +43,8 @@ double ProfilerFrame::getTimeFromStart() const
 	auto duration = std::chrono::duration<double>(tp_now - start_);
 	return duration.count();
 }
+
+void ProfilerFrame::reset()
+{
+	start_ = steady_clock::now();
+}

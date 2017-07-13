@@ -36,6 +36,7 @@
 #include <stack>
 #include <functional>
 #include <vector>
+#include <memory>
 
 #include "profilerframe.h"
 
@@ -56,6 +57,7 @@ public:
 
 private:
 	std::stack<ProfilerFrame, std::vector<ProfilerFrame>> stack_;
+	std::unique_ptr<ProfilerFrame> tickFrame_;
 	PrintHandler printHandler_;
 };
 

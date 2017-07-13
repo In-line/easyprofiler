@@ -33,7 +33,8 @@
 #include "easyprofiler.h"
 
 EasyProfiler::EasyProfiler(const PrintHandler &printHandler)
-	: printHandler_(printHandler)
+	: printHandler_(printHandler),
+      tickFrame_({})
 {
 }
 

@@ -44,6 +44,7 @@ class ProfilerFrame
 public:
 	ProfilerFrame();
 	double getTimeFromStart() const;
+	void reset();
 };
 
 #endif // PROFILERFRAME_H

@@ -32,8 +32,11 @@
 
 
 #include "main.h"
-#include <unistd.h>
+#include "helper/config.h"
+
 #include <cmath>
+
+#include <unistd.h>
 #include <sys/select.h>
 
 cell AMX_NATIVE_CALL ep_start(AMX*, cell*)
@@ -108,4 +111,9 @@ void OnAmxxDetach()
 {
 	delete profiler;
 	profiler = nullptr;
+}
+
+void StartFrame()
+{
+
 }
