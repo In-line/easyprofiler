@@ -1,9 +1,6 @@
 EASYPROFILER_ABI_1.0 {
-	global: 
-		#Meta_*;
-		AMX_*;
+	global:
 		AMXX_*;
-	 	GiveFnptrsToDll;
 	local: 
 		*;
 };
