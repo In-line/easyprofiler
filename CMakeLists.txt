@@ -5,9 +5,13 @@ set(THIRD_PARTY "${CMAKE_SOURCE_DIR}/third_party")
 set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
 
 set(AMXXSDK "${THIRD_PARTY}/amxmodx/public")
+set(METAMOD "${THIRD_PARTY}/metamod-hl1/metamod")
+set(HLSDK "${THIRD_PARTY}/hlsdk")
 
-include_directories(${AMXXSDK})
-include_directories(${AMXXSDK}/sdk)
+set(API_INCLUDE_PATH "${HLSDK}/common ${HLSDK}/dlls ${HLSDK}/engine ${HLSDK}/pm_shared ${HLSDK}/game_shared ${HLSDK}/public ${METAMOD} ${AMXXSDK} ${AMXXSDK}/sdk")
+
+string(REPLACE " " ";" API_INCLUDE_PATH_LIST ${API_INCLUDE_PATH})
+include_directories(${API_INCLUDE_PATH_LIST})
 
 add_subdirectory(test)
 
