@@ -34,10 +34,10 @@
 #include "main.h"
 #include "helper/config.h"
 
-#include <cmath>
-
 #include <unistd.h>
 #include <sys/select.h>
+
+#include "helper/fix_minmax.h"
 
 cell AMX_NATIVE_CALL ep_start(AMX*, cell*)
 {
@@ -100,10 +100,23 @@ cell AMX_NATIVE_CALL ep_dummy_call(AMX*, cell*)
 void OnAmxxAttach()
 {
 	g_correction = 0.0;
-	profiler = new EasyProfiler([](const char *fmt, double time)
+
+	std::string moduleDir = GET_PLUGIN_PATH(PLID);
+	{
+		size_t lastSlash;
+		if( ( lastSlash = moduleDir.find_last_of("/") ) != std::string::npos )
+		{
+			moduleDir.erase(lastSlash, std::string::npos);
+		}
+	}
+
+	auto configPath = moduleDir + "/" + "config.ini";
+
+	profiler = new EasyProfiler(configPath, [](const char *fmt, double time)
 	{
 		MF_Log(fmt, time);
 	});
+
 	MF_AddNatives(ep_exports);
 }
 
@@ -115,5 +128,20 @@ void OnAmxxDetach()
 
 void StartFrame()
 {
+	if(!profiler)
+		RETURN_META(MRES_IGNORED);
+	else if(profiler->getTickFrame() == nullptr)
+		profiler->setTickFrame({});
 
+	double frame_time = profiler->getTickFrame()->getTimeFromStart();
+	double minimumTimeBetweenFrames = profiler->getConfig().getMinimumTimeBetweenFrames();
+
+	if(minimumTimeBetweenFrames != 0.0 && frame_time > minimumTimeBetweenFrames)
+	{
+		MF_Log("Server freeze detected. Duration: %s", std::to_string(frame_time).c_str());
+	}
+
+	profiler->getTickFrame()->reset();
+
+	SET_META_RESULT(MRES_IGNORED);
 }
