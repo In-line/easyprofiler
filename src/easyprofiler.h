@@ -39,26 +39,31 @@
 #include <memory>
 
 #include "profilerframe.h"
+#include "helper/config.h"
 
 class EasyProfiler
 {
 public:
 	typedef std::function<void(const char*, double)> PrintHandler;
 
-	EasyProfiler(const PrintHandler &printHandler = PrintHandler());
-
-	void setPrintHandler(const PrintHandler &newHandler);
-	const PrintHandler &getPrintHandler() const;
+	EasyProfiler(const std::string &path, const PrintHandler &printHandler = PrintHandler());
 
 	void pushFrame();
 	double popFrame(std::size_t count = 1L,
 						 double correction = 0.0,
 						 const char *fmt = nullptr);
 
+	void setPrintHandler(const PrintHandler &newHandler);
+	const PrintHandler &getPrintHandler() const;
+
+	void setTickFrame(std::unique_ptr<ProfilerFrame>::pointer const tickFrame);
+	std::unique_ptr<ProfilerFrame>::pointer getTickFrame() const;
+	const Config &getConfig() const;
 private:
 	std::stack<ProfilerFrame, std::vector<ProfilerFrame>> stack_;
 	std::unique_ptr<ProfilerFrame> tickFrame_;
 	PrintHandler printHandler_;
+	Config config_;
 };
 
 #endif // EASYPROFILER_H

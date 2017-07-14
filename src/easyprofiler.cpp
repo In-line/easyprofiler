@@ -32,20 +32,11 @@
 
 #include "easyprofiler.h"
 
-EasyProfiler::EasyProfiler(const PrintHandler &printHandler)
+EasyProfiler::EasyProfiler(const std::string &path, const PrintHandler &printHandler)
 	: printHandler_(printHandler),
-      tickFrame_({})
+      tickFrame_(nullptr),
+      config_(path)
 {
-}
-
-void EasyProfiler::setPrintHandler(const PrintHandler &newHandler)
-{
-	printHandler_ = newHandler;
-}
-
-const EasyProfiler::PrintHandler &EasyProfiler::getPrintHandler() const
-{
-	return printHandler_;
 }
 
 void EasyProfiler::pushFrame()
@@ -64,3 +55,29 @@ double EasyProfiler::popFrame(std::size_t count/*= 0L*/,
 		printHandler_(fmt, time);
 	return time;
 }
+
+void EasyProfiler::setPrintHandler(const PrintHandler &newHandler)
+{
+	printHandler_ = newHandler;
+}
+
+const EasyProfiler::PrintHandler &EasyProfiler::getPrintHandler() const
+{
+	return printHandler_;
+}
+
+void EasyProfiler::setTickFrame(const std::unique_ptr<ProfilerFrame>::pointer tickFrame)
+{
+	tickFrame_.reset(tickFrame);
+}
+std::unique_ptr<ProfilerFrame>::pointer EasyProfiler::getTickFrame() const
+{
+	return tickFrame_.get();
+}
+
+const Config &EasyProfiler::getConfig() const
+{
+	return config_;
+}
+
+
