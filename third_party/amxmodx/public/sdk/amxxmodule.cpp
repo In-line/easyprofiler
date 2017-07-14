@@ -12,10 +12,7 @@
 // Module SDK
 //
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC system_header
 
 #include <string.h>
 #include <new>
